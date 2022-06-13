@@ -5,8 +5,8 @@ import Modal from "../UI/Modal";
 const Cart = (props) => {
   const cartItem = (
     <ul>
-      {[{ id: "c1", name: "Sushi", amount: 2, Price: 12.99 }].map((items) => (
-        <li>{items.name}</li>
+      {[{ id: "c1", name: "Sushi", amount: 2, Price: 12.99 }].map((item) => (
+        <li>{item.name}</li>
       ))}
     </ul>
   );

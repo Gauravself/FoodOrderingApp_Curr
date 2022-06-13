@@ -16,14 +16,12 @@ const defaultCartState = {
 const reducer = (prevState, action) => {
   switch (action.type) {
     case ACTIONS.ADD_ITEM:
-      const updatedItem = prevState.item.concat(action.payload);
+      const updatedItem = prevState.item.concat(action.item);
       const updatedTotalAmount =
         prevState.totalAmount + action.item.price * action.item.amount;
-      return { items: updatedItem, totalAmount: updatedTotalAmount };
-    case ACTIONS.REMOVE_ITEM:
-      return {};
+      return { item: updatedItem, totalAmount: updatedTotalAmount };
     default:
-      return prevState;
+      return defaultCartState;
   }
 };
 
@@ -34,11 +32,11 @@ const CartProvider = (props) => {
 
   //Functions to update Cart - to be called from Form
   const addItemToCartHandler = (item) => {
-    dispatch({ type: ACTIONS.ADD_ITEM, payload: item });
+    dispatch({ type: ACTIONS.ADD_ITEM, item: item });
   };
 
   const deleteItemFromCartHandler = (id) => {
-    dispatch({ type: ACTIONS.REMOVE_ITEM, payload: id });
+    dispatch({ type: ACTIONS.REMOVE_ITEM, id: id });
   };
 
   //Setting Context Dynamically

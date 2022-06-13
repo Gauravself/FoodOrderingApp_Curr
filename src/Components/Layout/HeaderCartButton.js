@@ -9,15 +9,13 @@ const HeaderCartButton = (props) => {
     return acc + curr.amount;
   }, 0);
   return (
-    <React.Fragment>
-      <button className={classes.button} onClick={props.onClick}>
-        <span className={classes.icon}>
-          <CartIcon />
-        </span>
-        <span>Your Cart</span>
-        <span className={classes.badge}>{numOfCartItems}</span>
-      </button>
-    </React.Fragment>
+    <button className={classes.button} onClick={props.onClick}>
+      <span className={classes.icon}>
+        <CartIcon />
+      </span>
+      <span>Your Cart</span>
+      <span className={classes.badge}>{numOfCartItems}</span>
+    </button>
   );
 };
 
