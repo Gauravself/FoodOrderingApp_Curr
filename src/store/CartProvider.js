@@ -16,10 +16,34 @@ const defaultCartState = {
 const reducer = (prevState, action) => {
   switch (action.type) {
     case ACTIONS.ADD_ITEM:
-      const updatedItem = prevState.item.concat(action.item);
+      //Update the Total Amount
       const updatedTotalAmount =
         prevState.totalAmount + action.item.price * action.item.amount;
-      return { item: updatedItem, totalAmount: updatedTotalAmount };
+
+      //Check if item already exists in cart using index
+      const existingCartItemIndex = prevState.item.findIndex(
+        (item) => item.id === action.item.id
+      );
+      //Find Item in state
+      const existingCartItem = prevState.item[existingCartItemIndex];
+      let updatedItems;
+      //If items exists spread it and update amount simultaneously store it in new Items
+      if (existingCartItem) {
+        const updatedItemNew = {
+          ...existingCartItem,
+          amount: existingCartItem.amount + action.item.amount,
+        };
+        updatedItems = [...prevState.item];
+        //Add updated items at the index of existing item index
+        updatedItems[existingCartItemIndex] = updatedItemNew;
+      } else {
+        updatedItems = prevState.item.concat(action.item);
+      }
+
+      return { item: updatedItems, totalAmount: updatedTotalAmount };
+    case ACTIONS.REMOVE_ITEM:
+      //Find Existing cart Item
+      return { item: updatedItems, totalAmount: updatedTotalAmount };
     default:
       return defaultCartState;
   }
