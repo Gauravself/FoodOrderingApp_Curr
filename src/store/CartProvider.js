@@ -20,11 +20,11 @@ const reducer = (prevState, action) => {
       const updatedTotalAmount =
         prevState.totalAmount + action.item.price * action.item.amount;
 
-      //Check if item already exists in cart using index
+      ///Find Index of current cart Item
       const existingCartItemIndex = prevState.item.findIndex(
         (item) => item.id === action.item.id
       );
-      //Find Item in state
+      //Find Item in state using Index
       const existingCartItem = prevState.item[existingCartItemIndex];
       let updatedItems;
       //If items exists spread it and update amount simultaneously store it in new Items
@@ -42,8 +42,34 @@ const reducer = (prevState, action) => {
 
       return { item: updatedItems, totalAmount: updatedTotalAmount };
     case ACTIONS.REMOVE_ITEM:
-      //Find Existing cart Item
-      return { item: updatedItems, totalAmount: updatedTotalAmount };
+      //Find Index of current cart Item
+      const existingCartItemIndexRemove = prevState.item.findIndex(
+        (item) => item.id === action.id
+      );
+      //Find Item using Index in State
+      const existingCartItemRemove =
+        prevState.item[existingCartItemIndexRemove];
+
+      //Update Total Amount by decreasing item price from total
+      const updatedTotalAmountNew =
+        prevState.totalAmount - existingCartItemRemove.price;
+
+      let updatedItemsNew;
+      //Check if Amount of item is 1
+      if (existingCartItemRemove.amount === 1) {
+        updatedItemsNew = prevState.item.filter(
+          //Keep only items whose id we have not selected remove only those items whose id matches the one we passed
+          (item) => item.id !== action.id
+        );
+      } else {
+        const updatedItemNewRemove = {
+          ...existingCartItemRemove,
+          amount: existingCartItemRemove.amount - 1,
+        };
+        updatedItemsNew = [...prevState.item];
+        updatedItemsNew[existingCartItemIndexRemove] = updatedItemNewRemove;
+      }
+      return { item: updatedItemsNew, totalAmount: updatedTotalAmountNew };
     default:
       return defaultCartState;
   }
